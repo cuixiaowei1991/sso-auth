@@ -1,0 +1,137 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+  
+  
+    <!-- 业务系统单点登录授权中心 -->
+    <servlet>
+       <servlet-name>business</servlet-name>
+       <servlet-class>com.cn.servlet.BusinessServiceServlet</servlet-class>
+        <init-param>
+            <param-name>cookieName</param-name>
+            <param-value>BusinessSSOID</param-value>
+        </init-param>
+        <init-param>
+            <param-name>secure</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>secretKey</param-name>
+            <param-value>111111112222222233333333</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ticketTimeout</param-name>
+            <param-value>120</param-value>
+        </init-param>
+         <init-param>
+            <param-name>redisFile</param-name>
+            <param-value>redis.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dataBaseFile</param-name>
+            <param-value>database.properties</param-value>
+        </init-param>
+         <init-param>
+            <param-name>userCookieName</param-name>
+            <param-value>BusinessUserCookie</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+       <servlet-name>business</servlet-name>
+       <url-pattern>/business</url-pattern>  
+    </servlet-mapping>
+      
+    
+    <!-- 商助单点登录授权中心 -->
+      <servlet>
+       <servlet-name>merchant</servlet-name>
+       <servlet-class>com.cn.servlet.MerchantSelfServiceServlet</servlet-class>
+        <init-param>
+            <param-name>cookieName</param-name>
+            <param-value>MerchantSSOID</param-value>
+        </init-param>
+        <init-param>
+            <param-name>secure</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>secretKey</param-name>
+            <param-value>444444445555555566666666</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ticketTimeout</param-name>
+            <param-value>120</param-value>
+        </init-param>
+         <init-param>
+            <param-name>redisFile</param-name>
+            <param-value>redis.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dataBaseFile</param-name>
+            <param-value>database.properties</param-value>
+        </init-param>
+         <init-param>
+            <param-name>userCookieName</param-name>
+            <param-value>MerchantUserCookie</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+       <servlet-name>merchant</servlet-name>
+       <url-pattern>/merchant</url-pattern>  
+    </servlet-mapping>
+    
+     <!--代理商系统单点登录授权中心  -->
+     <servlet>
+      <servlet-name>agents</servlet-name>
+      <servlet-class>com.cn.servlet.AgentsServiceServlet</servlet-class>
+       <init-param>
+           <param-name>cookieName</param-name>
+           <param-value>AgentsSSOID</param-value>
+       </init-param>
+       <init-param>
+           <param-name>secure</param-name>
+           <param-value>false</param-value>
+       </init-param>
+       <init-param>
+           <param-name>secretKey</param-name>
+           <param-value>333333336666666699999999</param-value>
+       </init-param>
+       <init-param>
+           <param-name>ticketTimeout</param-name>
+           <param-value>120</param-value>
+       </init-param>
+        <init-param>
+           <param-name>redisFile</param-name>
+           <param-value>redis.properties</param-value>
+       </init-param>
+       <init-param>
+           <param-name>dataBaseFile</param-name>
+           <param-value>database.properties</param-value>
+       </init-param>
+        <init-param>
+           <param-name>userCookieName</param-name>
+           <param-value>AgentsUserCookie</param-value>
+       </init-param>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>agents</servlet-name>
+      <url-pattern>/agents</url-pattern>  
+   </servlet-mapping>
+   
+     <!-- 跨域支持过滤器 -->
+    <filter>
+        <filter-name>crossDomainFilter</filter-name>
+        <filter-class>com.cn.filter.CrossDomainFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>crossDomainFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+</web-app>

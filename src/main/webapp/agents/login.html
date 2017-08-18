@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="renderer" content="webkit">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta name="author" content="All-Union.com.cn">
+		<title>登陆</title>
+		<meta name="keywords" content="关键字">
+		<meta name="description" content="描述">
+		<link rel="stylesheet" href="plugins/theme/css/custom-bootstrap.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.css">
+
+		<style>
+			*:not(.fa) {
+				font-family: '微软雅黑', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+			}
+			
+			.login-box {
+				margin: 10% auto;
+			}
+			
+			.login-logo {
+				padding: 0 0 0 25px;
+				margin: 0;
+			}
+			
+			.login-logo a {
+				color: #ffffff;
+				text-align: left;
+			}
+			
+			.login-box-body {
+				background-color: #5c6e82;
+				/*红色背景4d4d64*/
+			}
+			
+			h6 {
+				color: #ffffff;
+			}
+			
+			input {
+				background-color: #5c6e82!important;
+				/*红色背景575775*/
+				color: #b4c1ce!important;
+			}
+			
+			input::-webkit-input-placeholder {
+				/* WebKit browsers */
+				background-color: #5c6e82!important;
+				/*红色背景575775*/
+				color: #b4c1ce!important;
+			}
+			
+			input:-moz-placeholder {
+				/* Mozilla Firefox 4 to 18 */
+				background-color: #5c6e82!important;
+				/*红色背景575775*/
+				color: #b4c1ce!important;
+			}
+			
+			input::-moz-placeholder {
+				/* Mozilla Firefox 19+ */
+				background-color: #5c6e82!important;
+				/*红色背景575775*/
+				color: #b4c1ce!important;
+			}
+			
+			input:-ms-input-placeholder {
+				/* Internet Explorer 10+ */
+				color: #b4c1ce !important;
+				background-color: #5c6e82 !important;
+				/*红色背景575775*/
+			}
+			
+			.form-group.has-feedback {
+				border: 1px solid #3c4b5a;
+				/*红色背景3e3e52*/
+				padding-right: 0px;
+				padding-left: 45px;
+				border-radius: 3px;
+			}
+			
+			.form-control-feedback {
+				left: 0;
+				right: auto;
+				background-color: #4a5e73;
+				/*红色背景4d4d64*/
+				color: #b4c1ce !important;
+			}
+			
+			input {
+				padding: 0!important;
+				border: none !important;
+			}
+			
+			button.btn {
+				background-color: #e66d45;
+				/*蓝色0894d5*/
+				/*红色db4c3f*/
+				color: #ffffff;
+			}
+			
+			button.btn:hover {
+				color: #b4c1ce !important;
+			}
+			.rembUser{
+				color: #ffffff;
+			}
+		</style>
+	</head>
+
+	<body class="hold-transition login-page" style="background-color: #5c6e82;">
+		<!--/*红色背景4d4d64*/-->
+		<div class="login-box">
+			<div class="login-logo">
+				<a><b>代理商管理系统</b> </a>
+			</div>
+			<!-- /.login-logo -->
+			<div class="login-box-body">
+
+				<form id="loginForm" action="../index.html" method="post">
+					<div class="form-group has-feedback">
+						<span class="fa fa-phone form-control-feedback"></span>
+						<input id="telPhoneNum" name="telPhoneNum" type="text" value="" class="form-control" placeholder="手机号或用户名" maxlength="11">
+
+					</div>
+					<div class="form-group has-feedback">
+						<span class="fa fa-lock form-control-feedback"></span>
+						<input id="loginPass" name="loginPass" type="password" value="" class="form-control" placeholder="登录密码" maxlength="20">
+
+					</div>
+				</form>
+				<div class="row">
+					<div class="col-xs-6">
+						<label class="control-label rembUser">
+							<input type="checkbox" id="rembUser" name="rembUser" checked="true">   两周内记住登录状态</label>
+					</div>
+					<div class="col-xs-6">
+						<button type="button" class="btn btn-block btn-flat" id="login">登录</button>
+					</div>
+				</div>
+				<h6 class="text-center">北京众联享付科技股份有限公司</h6>
+
+			</div>
+			<!-- /.login-box-body -->
+		</div>
+		<!-- /.login-box -->
+
+		<script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+		<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+		<script src="plugins/theme/bootstrap/bootstrap.min.js"></script>
+		<script src="plugins/theme/js/app.min.js"></script>
+		<script src="plugins/common/jquery.cookie.js"></script>
+		<script src="plugins/common/common.js"></script>
+		<script src="plugins/theme/js/index_flot.js"></script>
+		<script src="plugins/common/dataHelper.js"></script>
+		<script>
+		//防止页面后退
+		history.pushState(null, null, document.URL);
+		window.addEventListener('popstate', function() {
+			history.pushState(null, null, document.URL);
+		});
+		if (window.parent != window.self) {
+			top.location.href = "./login.html";
+		}
+			$(function() {
+				//登录操作
+				$("#login").click(function() {
+					if($("#telPhoneNum").val() == null || $("#telPhoneNum").val() == undefined || $("#telPhoneNum").val() == '') {
+						alert("用户名不能为空");
+					} else if($("#loginPass").val() == null || $("#loginPass").val() == undefined || $("#loginPass").val() == '') {
+						alert("密码不能为空");
+					} else {
+						login();
+					}
+				});
+				$("#loginPass").keydown(function(e) {
+					if(e.keyCode == 13) {
+						if($("#telPhoneNum").val() == null || $("#telPhoneNum").val() == undefined || $("#telPhoneNum").val() == '') {
+							alert("用户名不能为空");
+						} else if($("#loginPass").val() == null || $("#loginPass").val() == undefined || $("#loginPass").val() == '') {
+							alert("密码不能为空");
+						} else {
+							login();
+						}
+					}
+				});
+				if($.cookie("ag_rembUser") == "true") {
+					$("#rembUser").attr("checked", true);
+					$("#telPhoneNum").val($.cookie("ag_userName"));
+					$("#loginPass").val($.cookie("ag_passWord"));
+				}
+			});
+			/*
+			 * 功能：login登录
+			 * 创建人：liql
+			 * 创建时间：2016-12-14
+			 */
+			function login() {
+				var jsonParam = {
+					"marked": "login",
+					"code": "10002",
+					"version": "1.0",
+					"jsonStr": {}
+				};
+				var jsonstr = dataHelper.setJson(null, 'username', $("#telPhoneNum").val());
+				jsonstr = dataHelper.setJson(jsonstr, 'password', $("#loginPass").val());
+				jsonParam.jsonStr = jsonstr;
+				console.log(jsonParam);
+				jQuery.axjsonpPost(agentLoginUrl, jsonParam, callback_login);
+			};
+			/*
+			 * 功能：login登录回调
+			 * 创建人：Liql
+			 * 创建时间：2016-12-15
+			 */
+			function callback_login(data) {
+				console.log(data);
+				if(data == undefined || data == null || data.rspCode != "000") {
+					alert(data.rspDesc);
+				} else {
+					saveUserInfoCookie();
+					top.location.href = indexHtml;
+				}
+			};
+			/*
+			 * 功能：验证后保存cookie
+			 * 创建人：liql
+			 * 创建时间：2015-9-24
+			 */
+			function saveUserInfoCookie() {
+
+				var userName = $("#telPhoneNum").val();
+				//处理
+				if($("#rembUser").is(':checked')) {
+					var userPassword = $.cookie('AgentsUserCookie') != undefined && $.cookie('AgentsUserCookie') != null ?
+						jQuery.parseJSON($.cookie('AgentsUserCookie')).passWord : '';
+					console.log(userPassword);
+					$.cookie("ag_userName", userName, {
+						expires: 14,
+						path: "/"
+					});
+					$.cookie("ag_passWord", userPassword, {
+						expires: 14,
+						path: "/"
+					});
+
+					$.cookie("ag_rembUser", "true", {
+						expires: 14,
+						path: "/"
+					}); //两周的存储cookie
+				} else {
+
+					$.cookie("ag_rembUser", "false", {
+						path: "/"
+					}); //两周的存储cookie
+					$.cookie("ag_userName", userName, {
+						path: "/"
+					});
+					$.cookie("ag_passWord", '', {
+						path: "/"
+					});
+				}
+			};
+		</script>
+	</body>
+
+</html>
